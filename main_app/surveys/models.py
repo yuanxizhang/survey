@@ -6,7 +6,7 @@ class Survey(models.Model):
      
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=255, null=True, blank=True)
-    # surveys will be sorted using published_date
+    # surveys will be sorted using published_date, created_date
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
     last_udpated_on = models.DateTimeField(auto_now=True)
@@ -23,7 +23,11 @@ class Survey(models.Model):
 class Question(models.Model):
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
     text = models.CharField(max_length=255, null=False, blank=False)
+    def __str__(self):
+        return self.text
 
 class Option(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)  
-    text = models.CharField(max_length=255, null=False, blank=False)
+    choice = models.CharField(max_length=255, null=False, blank=False)  
+    def __str__(self):
+        return self.choice
